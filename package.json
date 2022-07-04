@@ -1,0 +1,25 @@
+{
+  "name": "movies-explorer-api",
+  "version": "1.0.0",
+  "description": "diplom",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GochKa/movies-explorer-api.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GochKa/movies-explorer-api/issues"
+  },
+  "homepage": "https://github.com/GochKa/movies-explorer-api#readme",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "mongoose": "^6.4.2",
+    "validator": "^13.7.0"
+  }
+}
