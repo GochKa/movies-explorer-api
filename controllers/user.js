@@ -63,20 +63,13 @@ const login = (req, res, next) => {
 
 // Создание нового пользователя
 const createUser = (req, res, next) => {
-  const {
-    name,
-    about,
-    avatar,
-    email,
-    password,
-  } = req.body;
-  bcrypt.hash(password, 10)
+  bcrypt.hash(req.body.password, 10)
     .then((hash) => User.create({
       name: req.body.name,
       email: req.body.email,
       password: hash,
     }))
-    .then(() => res.status(200)
+    .then((user) => res.status(200)
       .send({
         data: {
           name: user.name,
