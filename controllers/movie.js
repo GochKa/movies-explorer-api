@@ -66,5 +66,5 @@ const deleatMovie = (req, res, next) => {
 module.exports = {
   getMovies,
   createMovie,
-  deleteMovie,
+  deleatMovie,
 };
