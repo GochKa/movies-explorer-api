@@ -2,12 +2,12 @@ const router = require('express').Router();
 
 const {
   validateLogin,
-  validateSignup
+  validateSignup,
 } = require('../middlewares/reqValidator');
 
 const {
   login,
-  createUser
+  createUser,
 } = require('../controllers/user');
 
 const auth = require('../middlewares/auth');
@@ -15,7 +15,7 @@ const auth = require('../middlewares/auth');
 const userRouter = require('./user');
 const movieRouter = require('./movies');
 
-const notFoundErr = require('../errors/NotFound');
+const NotFoundErr = require('../errors/NotFound');
 
 router.post('/signin', validateLogin, login);
 router.post('/signup', validateSignup, createUser);
@@ -23,8 +23,8 @@ router.post('/signup', validateSignup, createUser);
 router.use(auth, userRouter);
 router.use(auth, movieRouter);
 
-router.use('/*', () =>{
-  throw new notFoundErr('Страница не найдена')
+router.use('/*', () => {
+  throw new NotFoundErr('Страница не найдена');
 });
 
 module.exports = router;
