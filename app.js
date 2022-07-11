@@ -12,23 +12,22 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const router = require('./routes/index');
 
-const { PORT = 3006 } = process.env;
-// eslint-disable-next-line camelcase
-const Allowed_Cors = [
-  'http://localhost:3006',
-  'http://movies.gocha.nomoredomains.xyz',
-  'https://movies.gocha.nomoredomains.xyz',
-  'http://api.movies.gocha.nomoredomains.xyz',
-  'https://api.movies.gocha.nomoredomains.xyz',
-];
+const {
+  MONGO_DB_ADDRESS,
+  PORT_NUMBER,
+  ALLOWED_CORS,
+} = require('./utils/constants');
 
+const rateLimiter = require('./middlewares/rateLimmiter');
+
+const { PORT = PORT_NUMBER } = process.env;
 const app = express();
 
 app.use(cors({
-  origin: Allowed_Cors,
+  origin: ALLOWED_CORS,
 }));
 
-mongoose.connect('mongodb://localhost:27017/moviesdb');
+mongoose.connect(MONGO_DB_ADDRESS);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -36,6 +35,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(requestLogger);
 
 app.use(helmet());
+
+app.use(rateLimiter);
 
 app.get('/crash-test', () => {
   setTimeout(() => {
