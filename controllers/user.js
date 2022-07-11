@@ -1,7 +1,6 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-
 const { NODE_ENV, JWT_SECRET } = process.env;
 
 const User = require('../models/user');
@@ -12,7 +11,6 @@ const AuthErr = require('../errors/AuthError');
 
 // Информация о  пользователе
 const getCurrentUser = (req, res, next) => {
-
   const id = req.user._id;
 
   User.findById(id)
@@ -26,18 +24,19 @@ const getCurrentUser = (req, res, next) => {
 
 // Обновление информации о пользователе
 const updateUser = (req, res, next) => {
-
   const id = req.user._id;
   const newName = req.body.name;
   const newEmail = req.body.email;
 
   User.findOneAndUpdate(
-    {_id: id},
+    { _id: id },
     { name: newName, email: newEmail },
-    { new: true,
+    {
+      new: true,
       runValidators: true,
       upsert: false,
-    })
+    },
+  )
     .then((user) => {
       res.status(200).send(user);
     })
@@ -82,7 +81,7 @@ const createUser = (req, res, next) => {
         data: {
           name: user.name,
           email: user.email,
-          _id: user._id
+          _id: user._id,
         },
       }))
     .catch((err) => {
@@ -100,5 +99,5 @@ module.exports = {
   getCurrentUser,
   updateUser,
   login,
-  createUser
+  createUser,
 };

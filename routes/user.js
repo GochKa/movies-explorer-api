@@ -2,7 +2,7 @@ const userRouter = require('express').Router();
 
 const {
   validateId,
-  validateUpdateCurrentUser
+  validateUpdateCurrentUser,
 } = require('../middlewares/reqValidator');
 
 const {

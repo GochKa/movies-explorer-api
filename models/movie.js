@@ -1,54 +1,54 @@
 const mongoose = require('mongoose');
 
 const movieSchema = mongoose.Schema({
-  country:{
+  country: {
     type: String,
     required: true,
   },
-  director:{
+  director: {
     type: String,
-    required:true,
+    required: true,
   },
-  duration:{
+  duration: {
     type: Number,
     required: true,
   },
-  year:{
+  year: {
     type: String,
-    required:true,
+    required: true,
   },
-  description:{
+  description: {
     type: String,
-    required:true,
+    required: true,
   },
-  image:{
+  image: {
     type: String,
-    required:true,
+    required: true,
   },
-  trailerLink:{
+  trailerLink: {
     type: String,
-    required:true,
+    required: true,
   },
-  thumbnail:{
+  thumbnail: {
     type: String,
-    required:true,
+    required: true,
   },
-  owner:{
+  owner: {
     required: true,
     type: mongoose.Schema.Types.ObjectId,
   },
-  movieId:{
+  movieId: {
     type: Number,
     required: true,
   },
-  nameRU:{
+  nameRU: {
     type: String,
-    required:true,
+    required: true,
   },
-  nameEN:{
+  nameEN: {
     type: String,
-    required:true,
+    required: true,
   },
-})
+});
 
-module.exports = mongoose.model('movie', movieSchema)
+module.exports = mongoose.model('movie', movieSchema);
