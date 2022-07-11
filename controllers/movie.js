@@ -5,6 +5,11 @@ const ConflictErr = require('../errors/conflict');
 const ForbiddenErr = require('../errors/ForbiddenError');
 const NotFoundErr = require('../errors/NotFound');
 
+const {
+  NOT_FOUND_MOVIE_ERROR_MESSAGE,
+  FORBIDDEN_DELETE_MOVIE_MESSAGE,
+} = require('../utils/constants');
+
 // Получение фильмов
 const getMovies = (req, res, next) => {
   const owner = req.user._id;
@@ -13,7 +18,7 @@ const getMovies = (req, res, next) => {
     .then((cards) => {
       res.status(200).send(cards);
     })
-    .catch(() => next(new NotFoundErr('Фильм не найден')))
+    .catch((err) => next(new NotFoundErr(err.message)))
     .catch((err) => {
       next(err);
     });
@@ -29,10 +34,10 @@ const createMovie = (req, res, next) => {
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        return next(new InvReqErr('Переданы некорректные данные при создании карточки'));
+        return next(new InvReqErr(err.message));
       }
       if (err.code === 11000) {
-        return next(new ConflictErr('Такой фильм уже существует'));
+        return next(new ConflictErr(err.message));
       }
       return next(err);
     });
@@ -47,10 +52,10 @@ const deleatMovie = (req, res, next) => {
     // eslint-disable-next-line consistent-return
     .then((movie) => {
       if (!movie) {
-        return next(new NotFoundErr('Фильм не найден'));
+        return next(new NotFoundErr(NOT_FOUND_MOVIE_ERROR_MESSAGE));
       }
       if (movie.owner.toString() !== owner) {
-        return next(new ForbiddenErr('Невозможно удалить фильм другого пользователя'));
+        return next(new ForbiddenErr(FORBIDDEN_DELETE_MOVIE_MESSAGE));
       }
       Movie.findByIdAndDelete(movieId)
         .then((deleatedMovie) => {

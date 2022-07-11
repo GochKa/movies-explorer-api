@@ -9,10 +9,10 @@ const InvReqErr = require('../errors/InvalidRequest');
 const ConflictErr = require('../errors/conflict');
 const AuthErr = require('../errors/AuthError');
 
+
 // Информация о  пользователе
 const getCurrentUser = (req, res, next) => {
   const id = req.user._id;
-
   User.findById(id)
     .then((user) => {
       res.status(200).send(user);
@@ -41,10 +41,11 @@ const updateUser = (req, res, next) => {
       res.status(200).send(user);
     })
     .catch((err) => {
-      if (err.name === 'ValidationError') {
-        return next(new InvReqErr('Переданы некорректные данные'));
-      }
-      return next(err);
+      if (err.name === ('CastError' || 'ValidationError')) {
+        next(new InvReqErr(err.message));
+      } else if (err.name === 'MongoError' || err.code === 11000) {
+        next(new ConflictErr(err.message));
+      } else next(err);
     });
 };
 
@@ -86,10 +87,10 @@ const createUser = (req, res, next) => {
       }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        return next(new InvReqErr('не передан email или пароль'));
+        return next(new InvReqErr(err.message));
       }
       if (err.code === 11000) {
-        return next(new ConflictErr('такой email уже занят'));
+        return next(new ConflictErr(err.message));
       }
       return next(err);
     });
