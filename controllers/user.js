@@ -9,7 +9,6 @@ const InvReqErr = require('../errors/InvalidRequest');
 const ConflictErr = require('../errors/conflict');
 const AuthErr = require('../errors/AuthError');
 
-
 // Информация о  пользователе
 const getCurrentUser = (req, res, next) => {
   const id = req.user._id;
