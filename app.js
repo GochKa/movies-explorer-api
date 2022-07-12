@@ -13,12 +13,12 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 const router = require('./routes/index');
 
 const {
-  MONGO_DB_ADDRESS,
   PORT_NUMBER,
   ALLOWED_CORS,
 } = require('./utils/constants');
 
 const rateLimiter = require('./middlewares/rateLimmiter');
+const errHandler = require('./middlewares/errHandler');
 
 const { PORT = PORT_NUMBER } = process.env;
 const app = express();
@@ -27,7 +27,7 @@ app.use(cors({
   origin: ALLOWED_CORS,
 }));
 
-mongoose.connect(MONGO_DB_ADDRESS);
+mongoose.connect(process.env.MONGO_DB_ADDRESS);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -49,7 +49,6 @@ app.use('/', router);
 app.use(errorLogger);
 app.use(errors());
 
-app.listen(PORT, () => {
-  // eslint-disable-next-line no-console
-  console.log(`Приложение запущено на порту ${PORT}`);
-});
+app.use(errHandler);
+
+app.listen(PORT);

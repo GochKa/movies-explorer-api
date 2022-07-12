@@ -49,19 +49,19 @@ const deleatMovie = (req, res, next) => {
   const { movieId } = req.params;
 
   Movie.findById(movieId)
-    // eslint-disable-next-line consistent-return
     .then((movie) => {
       if (!movie) {
-        return next(new NotFoundErr(NOT_FOUND_MOVIE_ERROR_MESSAGE));
+        throw new NotFoundErr(NOT_FOUND_MOVIE_ERROR_MESSAGE);
       }
       if (movie.owner.toString() !== owner) {
-        return next(new ForbiddenErr(FORBIDDEN_DELETE_MOVIE_MESSAGE));
+        throw new ForbiddenErr(FORBIDDEN_DELETE_MOVIE_MESSAGE);
+      } else {
+        Movie.findByIdAndDelete(movieId)
+          .then((deletedMovie) => {
+            res.status(200).send({ data: deletedMovie });
+          })
+          .catch(next);
       }
-      Movie.findByIdAndDelete(movieId)
-        .then((deleatedMovie) => {
-          res.status(200).send({ data: deleatedMovie });
-        })
-        .catch(next);
     })
     .catch(next);
 };
