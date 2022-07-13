@@ -7,6 +7,8 @@ const ALLOWED_CORS = [
   'https://api.movies.gocha.nomoredomains.xyz',
 ];
 
+// Адрес базы данных
+const MONGO_DB_ADDRESS = 'mongodb://localhost:27017/moviesdb';
 // Номер порта
 const PORT_NUMBER = 3006;
 
@@ -37,4 +39,5 @@ module.exports = {
   ALLOWED_CORS,
   REQUEST_LOG_FILENAME,
   ERROR_LOG_FILENAME,
+  MONGO_DB_ADDRESS,
 };

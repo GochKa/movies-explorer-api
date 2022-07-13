@@ -15,6 +15,7 @@ const router = require('./routes/index');
 const {
   PORT_NUMBER,
   ALLOWED_CORS,
+  MONGO_DB_ADDRESS,
 } = require('./utils/constants');
 
 const rateLimiter = require('./middlewares/rateLimmiter');
@@ -27,7 +28,9 @@ app.use(cors({
   origin: ALLOWED_CORS,
 }));
 
-mongoose.connect(process.env.MONGO_DB_ADDRESS);
+mongoose.connect(MONGO_DB_ADDRESS, {
+  useNewUrlParser: true,
+});
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -51,4 +54,6 @@ app.use(errors());
 
 app.use(errHandler);
 
-app.listen(PORT);
+app.listen(PORT, () => {
+  console.log(MONGO_DB_ADDRESS);
+});
