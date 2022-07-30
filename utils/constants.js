@@ -1,6 +1,7 @@
 // Разрешённые источники запросов
 const ALLOWED_CORS = [
   'http://localhost:3006',
+  'http://localhost:3001',
   'http://movies.gocha.nomoredomains.xyz',
   'https://movies.gocha.nomoredomains.xyz',
   'http://api.movies.gocha.nomoredomains.xyz',
