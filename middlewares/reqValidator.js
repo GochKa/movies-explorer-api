@@ -34,13 +34,13 @@ const validateCreateMovie = celebrate({
     image: Joi.string().required().custom(urlValidator),
     trailerLink: Joi.string().required().custom(urlValidator),
     thumbnail: Joi.string().required().custom(urlValidator),
-    movieId: Joi.number().required(),
+    id: Joi.number().required(),
   }),
 });
 
 const validateDeleteMovie = celebrate({
   params: Joi.object().keys({
-    movieId: Joi.string().required().alphanum().length(24)
+    id: Joi.string().required().alphanum().length(24)
       .hex(),
   }),
 });
