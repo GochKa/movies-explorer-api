@@ -46,9 +46,9 @@ const createMovie = (req, res, next) => {
 // Удаление карточки фильма
 const deleatMovie = (req, res, next) => {
   const owner = req.user._id;
-  const { id } = req.params;
+  const { movieId } = req.params;
 
-  Movie.findById(id)
+  Movie.findById(movieId)
     .then((movie) => {
       if (!movie) {
         throw new NotFoundErr(NOT_FOUND_MOVIE_ERROR_MESSAGE);
@@ -56,7 +56,7 @@ const deleatMovie = (req, res, next) => {
       if (movie.owner.toString() !== owner) {
         throw new ForbiddenErr(FORBIDDEN_DELETE_MOVIE_MESSAGE);
       } else {
-        Movie.findByIdAndDelete(id)
+        Movie.findByIdAndDelete(movieId)
           .then((deletedMovie) => {
             res.status(200).send({ data: deletedMovie });
           })
