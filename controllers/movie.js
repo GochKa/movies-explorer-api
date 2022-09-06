@@ -30,7 +30,7 @@ const createMovie = (req, res, next) => {
 
   Movie.create({ owner, ...req.body })
     .then((movie) => {
-      res.status(201).send({ data: movie });
+      res.status(201).send(movie);
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
